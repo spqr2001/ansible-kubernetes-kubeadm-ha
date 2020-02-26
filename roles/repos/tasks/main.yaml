@@ -10,11 +10,8 @@
   - docker-logrotate
   - docker-engine
 
-- name: Add Docker repository
-  yum_repository:
-    name: docker_ce_repo
-    description: docker-ce.repo
-    baseurl:  https://download.docker.com/linux/centos/docker-ce.repo
+- name: add repo 
+  shell: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo 
 
 - name: Centos Docker CE
   yum: name={{ item }} state=latest

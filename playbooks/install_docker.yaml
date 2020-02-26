@@ -2,7 +2,7 @@
   yum: 
     name: docker-ce-{{ docker_version }}
     state: installed
-    enablerepo: docker-ce  
+    #enablerepo:   
 
 - name: Create directory for trusted registry
   file:
