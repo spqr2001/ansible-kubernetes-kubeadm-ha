@@ -10,6 +10,7 @@ k8s-master-replicas
 
 [k8s-workers]
 node02
+node03
 
 [k8s-nodes:children]
 k8s-masters
