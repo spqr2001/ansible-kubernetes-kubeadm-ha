@@ -2,6 +2,9 @@
 - pause:
     prompt: "Wait before initializing master"
 
+- name: preload images
+  shell: kubeadm config images pull
+
 - name: "Create kubeadm init config yaml"
   copy:
     content: "{{ kubeadm_config_options | to_nice_yaml }}"

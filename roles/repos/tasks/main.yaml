@@ -19,7 +19,6 @@
   - docker-ce
   - docker-ce-cli
   - containerd.io
-  when: ansible_distribution == "Centos"
 
 - name: Start docker service
   shell: systemctl daemon-reload && systemctl enable docker && systemctl restart docker
