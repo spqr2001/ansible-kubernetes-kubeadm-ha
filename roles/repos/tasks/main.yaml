@@ -1,28 +1,44 @@
-- name: Install yum-utils
-  become: yes
-  yum:
-    name: "{{item}}"
+- name: Remove old Docker
+  yum: name={{ item }} state=absent
   with_items:
-    - yum-utils
+  - docker
+  - docker-client
+  - docker-client-latest
+  - docker-common
+  - docker-latest
+  - docker-latest-logrotate
+  - docker-logrotate
+  - docker-engine
 
-- name: "Enable extras"
-  shell:
-    yum-config-manager --enable "CentOS-7 - Extras"
-
-- name: Add docker-ce-stable repo
+- name: Add Docker repository
   yum_repository:
-    name: docker-ce
-    description: docker-ce stable repo
-    baseurl: https://pkgs.domain.local/linux/docker-ce/
-    gpgcheck: no
-    sslverify: no
-    enabled: false
+    name: docker_ce_repo
+    description: docker-ce.repo
+    baseurl:  https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Centos Docker CE
+  yum: name={{ item }} state=latest
+  with_items:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  when: ansible_distribution == "Centos"
+
+- name: Start docker service
+  shell: systemctl daemon-reload && systemctl enable docker && systemctl restart docker
+
+- name: adding existing user "{{ ansible_user }}" to group sudo
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+  become: yes
 
 - name: Add kubernetes repo
   yum_repository:
     name: kubernetes
     description: Kubernetes repo
-    baseurl: https://pkgs.domain.local/linux/kubernetes/yum/repos/kubernetes-el7-$basearch
+    baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64 
     gpgcheck: no
     sslverify: no
-    enabled: false
+    enabled: true

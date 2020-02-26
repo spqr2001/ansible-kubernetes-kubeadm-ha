@@ -1,11 +1,3 @@
-- name: Install docker dependencies
-  become: yes
-  yum:
-    name: "{{item}}"
-  with_items:
-    - device-mapper-persistent-data
-    - lvm2
-
 - name: Install docker on hosts sequentially
   include_tasks: "install_docker.yaml"
   with_items: "{{ groups['k8s-nodes'] }}"

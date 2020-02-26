@@ -1,18 +1,15 @@
 [k8s-master-primary]
-master1.domain.local
+node00
 
 [k8s-master-replicas]
-master2.domain.local
-master3.domain.local
+node01 
 
 [k8s-masters:children]
 k8s-master-primary
 k8s-master-replicas
 
 [k8s-workers]
-worker1.domain.local
-worker2.domain.local
-worker3.domain.local
+node02
 
 [k8s-nodes:children]
 k8s-masters

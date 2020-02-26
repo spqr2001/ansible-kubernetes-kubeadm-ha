@@ -1,16 +1,10 @@
-- name: Check if yum is installed.
-  raw: yum --version
-  register: has_yum
-  failed_when: False
+- name: Install socat for Centos server
+  yum: name={{ item }} state=latest
+  with_items:
+  - socat
+  - epel-release
+  - ansible
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
 
-- name: Clean yum
-  raw: yum clean all
-  when: has_yum.rc == 0
-
-- name: Install python2 [yum].
-  raw: yum install -y python
-  register: installed_via_yum
-  when: has_yum.rc == 0
-
-- name: Ensure python2 has been installed properly.
-  raw: test -e /usr/bin/python
